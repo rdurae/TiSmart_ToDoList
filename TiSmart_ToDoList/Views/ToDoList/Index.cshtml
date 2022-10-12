@@ -1,0 +1,60 @@
+﻿@model IEnumerable<TiSmart_ToDoList.Models.ToDoListModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Titulo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstadoTarea)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaCreacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaFin)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Titulo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstadoTarea)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaCreacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaFin)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {  id=item.Id  }) |
+                    @Html.ActionLink("Details", "Details", new {  id=item.Id  }) |
+                    @Html.ActionLink("Delete", "Delete", new {  id=item.Id  })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
