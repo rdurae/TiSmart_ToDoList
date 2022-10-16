@@ -12,6 +12,8 @@ namespace TiSmart_ToDoList.Models
         public string Titulo { get; set; } = string.Empty;
         public bool EstadoTarea { get; set; } = false;
         public DateTime FechaCreacion { get; set; } = DateTime.Now;
-        public DateTime FechaFin { get; set; } 
+        public DateTime FechaFin { get; set; }
+        public string Notas { get; set; } = string.Empty;
+        public uint Prioridad { get; set; } = 0;
     }
 }
