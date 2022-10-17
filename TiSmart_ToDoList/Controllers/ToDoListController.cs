@@ -1,27 +1,36 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using TiSmart_ToDoList.Data;
 using TiSmart_ToDoList.Models;
 
-namespace TiSmart_ToDoList1.Controllers
+namespace TiSmart_ToDoList.Controllers
 {
     public class ToDoListController : Controller
     {
-
-        static List<ToDoListModel> todolistitems = new List<ToDoListModel>();
+        //ToDoListAdmin admin = new ToDoListAdmin();
+         ToDoListAdmin todolistitems = new ToDoListAdmin();
+        //static List<ToDoListModel> todolistitems = new List<ToDoListModel>();
+        
         // GET: ToDoListController
         public ActionResult Index()
-        {            
-            return View(todolistitems.ToList());
+        {
+            //IEnumerable<ToDoListModel> todolistitems = admin.Consultar();
+            //  IEnumerable<ToDoListModel> lista = admin.Consultar();
+            //static List<ToDoListModel> todolistitems = new List<ToDoListModel>();
+            //IEnumerable<ToDoListModel> todolistitems = admin.Consultar();
+            return View(todolistitems.Consultar().ToList());
         }
 
         // GET: ToDoListController/Details/5
+        // sin procedimiento almacenado
         public ActionResult Details(int id)
         {
-            var item = todolistitems.Where(x => x.Id == id).SingleOrDefault();
+            var item = todolistitems.Consultar().ToList().Where(x => x.Id == id).SingleOrDefault();
             return View(item);
         }
 
-        // GET: ToDoListController/Create
+        //GET: ToDoListController/Create
         public ActionResult Create()
         {
             return View();
@@ -30,7 +39,7 @@ namespace TiSmart_ToDoList1.Controllers
         // POST: ToDoListController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //public ActionResult Create(IFormCollection collection)
+        ////public ActionResult Create(IFormCollection collection)
         public ActionResult Create(ToDoListModel todolistcreate)
         {
             try
@@ -41,21 +50,27 @@ namespace TiSmart_ToDoList1.Controllers
 
                     return View("Create", todolistcreate);
                 }
+                else
+                {
+                    todolistitems.Guardar(todolistcreate);
+                    return RedirectToAction("Index");
+                }
+
                 // lastid++; //intento de incremento
                 //todolistcreate.Id = todolistitems.Count + 1;
                 //todolistcreate.Id = todolistitems.LastOrDefault().Id + 1;
-                if (todolistitems.LastOrDefault() != null)
-                {
-                    todolistcreate.Id = todolistitems.LastOrDefault().Id + 1;
-                }
-                else 
-                {
-                    todolistcreate.Id = 1; 
-                }
-                todolistitems.Add(todolistcreate);
+                //if (todolistitems.LastOrDefault() != null)
+                //{
+                //    todolistcreate.Id = todolistitems.LastOrDefault().Id + 1;
+                //}
+                //else
+                //{
+                //    todolistcreate.Id = 1;
+                //}
+                //todolistitems.Add(todolistcreate);
                 //ultimoid = todolistcreate.Id;
 
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
 
             }
             catch
@@ -66,74 +81,76 @@ namespace TiSmart_ToDoList1.Controllers
 
         }
 
-        // GET: ToDoListController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            // var item = todolistitems.Where(x => x.Id == id).SingleOrDefault();
-            // return View(item);
-            //Instancia de objeto segun id
+        //// GET: ToDoListController/Edit/5
+        //public ActionResult Edit(int id)
+        //{
+        //    // var item = todolistitems.Where(x => x.Id == id).SingleOrDefault();
+        //    // return View(item);
+        //    //Instancia de objeto segun id
 
-            //todolistitems listaitem = db.Movies.Find(id);
-            //if (todolistitem == null)
-            //{
-            //    return HttpNotFound();
-            //}
-            //return View(todolistitem);
+        //    //todolistitems listaitem = db.Movies.Find(id);
+        //    //if (todolistitem == null)
+        //    //{
+        //    //    return HttpNotFound();
+        //    //}
+        //    //return View(todolistitem);
 
-            var item = todolistitems.Where(x => x.Id == id).SingleOrDefault();
+        //    var item = todolistitems.Where(x => x.Id == id).SingleOrDefault();
 
-            if (item.EstadoTarea == false)
-            {
-                return View(item);
-            }
-            else
-            {
-                return View("Error");
-            }
-           
+        //    if (item.EstadoTarea == false)
+        //    {
+        //        return View(item);
+        //    }
+        //    else
+        //    {
+        //        return View("Error");
+        //    }
 
 
-        }
 
-        // POST: ToDoListController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(ToDoListModel todolistitemedit)
-        {
-            try
-            {
-                //return RedirectToAction(nameof(Index));
-                if (!ModelState.IsValid)
-                {
+        //}
 
-                    return View("Edit", todolistitemedit);
-                }
-                // lastid++; //intento de incremento
-                //todolistcreate.Id = lastid;
-                //todolistitemedit.EstadoTarea = true;
-                //todolistitems.Add(todolistitemedit);
-                //ultimoid = todolistcreate.Id;
+        //// POST: ToDoListController/Edit/5
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit(ToDoListModel todolistitemedit)
+        //{
+        //    try
+        //    {
+        //        //return RedirectToAction(nameof(Index));
+        //        if (!ModelState.IsValid)
+        //        {
 
-                var todolistitem = todolistitems.Where(s => s.Id == todolistitemedit.Id).FirstOrDefault();
-                //todolistitems.Remove(todolistitem);
-                
-                todolistitem.Titulo = todolistitemedit.Titulo;
-                todolistitem.EstadoTarea = todolistitemedit.EstadoTarea;
+        //            return View("Edit", todolistitemedit);
+        //        }
+        //        // lastid++; //intento de incremento
+        //        //todolistcreate.Id = lastid;
+        //        //todolistitemedit.EstadoTarea = true;
+        //        //todolistitems.Add(todolistitemedit);
+        //        //ultimoid = todolistcreate.Id;
 
-                if (todolistitem.EstadoTarea) todolistitem.FechaFin = DateTime.Now;
+        //        var todolistitem = todolistitems.Where(s => s.Id == todolistitemedit.Id).FirstOrDefault();
+        //        //todolistitems.Remove(todolistitem);
 
-                //todolistitems.Add(todolistitemedit);
+        //        todolistitem.Titulo = todolistitemedit.Titulo;
+        //        todolistitem.EstadoTarea = todolistitemedit.EstadoTarea;
+        //        todolistitem.Notas = todolistitemedit.Notas;
+        //        todolistitem.Prioridad = todolistitemedit.Prioridad;
 
-                return RedirectToAction("Index");
+        //        if (todolistitem.EstadoTarea) todolistitem.FechaFin = DateTime.Now;
 
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //        //todolistitems.Add(todolistitemedit);
 
-        // GET: ToDoListController/Delete/5
+        //        return RedirectToAction("Index");
+
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
+
+        //GET: ToDoListController/Delete/5
         //public ActionResult Delete(int id)
         //{
         //    return View();
@@ -146,8 +163,8 @@ namespace TiSmart_ToDoList1.Controllers
         {
             //var item = todolistitems.RemoveAt(x => x.Id == id).SingleOrDefault();
 
-            var itemToRemove = todolistitems.Single(r => r.Id == id);
-            todolistitems.Remove(itemToRemove);
+            //var itemToRemove = todolistitems.Single(r => r.Id == id);
+            //todolistitems.Remove(itemToRemove);
 
             //try
             //{
@@ -155,6 +172,8 @@ namespace TiSmart_ToDoList1.Controllers
             //}
             //catch
             //{
+
+            todolistitems.Eliminar(id);
             return RedirectToAction("Index");
             //}
         }
