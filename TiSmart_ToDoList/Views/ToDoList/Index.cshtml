@@ -1,8 +1,18 @@
 ﻿@model IEnumerable<TiSmart_ToDoList.Models.ToDoListModel>
+@*@model TiSmart_ToDoList.Models.ToDoListModel*@
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+    List<SelectListItem> PrioridadValores = new List<SelectListItem>
+        {
+            new SelectListItem {Text = "Baja", Value = "1"},
+            new SelectListItem {Text = "Media", Value = "2"},
+            new SelectListItem {Text = "Alta", Value = "3"}
+        };
+
 }
 
 <h1>Index</h1>
@@ -10,6 +20,18 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<form asp-action="Index">
+    <p>
+
+        <select asp-items="PrioridadValores" name="id">
+            <option value="">Seleccione Prioridad</option>
+        </select>
+       
+        <input type="submit" value="Filtrar" />
+    </p>
+</form>
+
 <table class="table">
     <thead>
         <tr>

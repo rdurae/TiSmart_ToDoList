@@ -61,6 +61,7 @@ namespace TiSmart_ToDoList.Data
             {
                 SqlCommand comando = new SqlCommand("spguardar", cnn);
                 comando.CommandType = System.Data.CommandType.StoredProcedure;
+
                 comando.Parameters.AddWithValue("@titulo", modelo.Titulo.ToString());
                 comando.Parameters.AddWithValue("@estadotarea", bool.Parse(modelo.EstadoTarea.ToString()));
                 comando.Parameters.AddWithValue("@fechacreacion", modelo.FechaCreacion);
@@ -75,11 +76,11 @@ namespace TiSmart_ToDoList.Data
 
                 Console.WriteLine(e.StackTrace);
             }
-            //finally
-            //{
-            //    Desconectar();
-            //}
-            //return lista;
+            finally
+            {
+                Desconectar();
+            }
+            
 
         }
 
@@ -103,6 +104,36 @@ namespace TiSmart_ToDoList.Data
             {
                 Desconectar();
             }
+
+        }
+
+        public void Modificar(ToDoListModel modelo)
+        {
+            Conectar();
+            try
+            {
+                SqlCommand comando = new SqlCommand("spmodificar", cnn);
+                comando.CommandType = System.Data.CommandType.StoredProcedure;
+
+                comando.Parameters.AddWithValue("@id", (int) modelo.Id);
+                comando.Parameters.AddWithValue("@titulo", modelo.Titulo.ToString());
+                comando.Parameters.AddWithValue("@estadotarea", bool.Parse(modelo.EstadoTarea.ToString()));                
+                comando.Parameters.AddWithValue("@fechafin", modelo.FechaFin);
+                comando.Parameters.AddWithValue("@notas", modelo.Notas.ToString());
+                comando.Parameters.AddWithValue("@prioridad", int.Parse(modelo.Prioridad.ToString()));
+                comando.ExecuteNonQuery();
+
+            }
+            catch (Exception e)
+            {
+
+                Console.WriteLine(e.StackTrace);
+            }
+            finally
+            {
+                Desconectar();
+            }
+
 
         }
     }
