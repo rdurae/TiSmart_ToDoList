@@ -1,8 +1,9 @@
-﻿using System.Data.SqlClient;
+﻿using System;
+using System.Data.SqlClient;
 
-namespace TiSmart_ToDoList.Data
+namespace DBConnectSvc.App_Data
 {
-    public class Connection
+    public class IConnection
     {
         protected SqlConnection cnn;
         protected void Conectar()

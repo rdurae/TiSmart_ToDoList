@@ -17,7 +17,7 @@ namespace TiSmart_ToDoList.Models
         [Required]
         public string Notas { get; set; } = string.Empty;
         [Required]
-        public int Prioridad { get; set; }
+        public int Prioridad { get; set; } 
     }
 
 
