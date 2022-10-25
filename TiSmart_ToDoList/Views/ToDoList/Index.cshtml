@@ -26,68 +26,67 @@
         <select asp-items="PrioridadValores" name="id">
             <option value="">Seleccione Prioridad</option>
         </select>
-       
+
         <input type="submit" value="Filtrar" />
     </p>
 </form>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Titulo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EstadoTarea)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaCreacion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaFin)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Notas)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Prioridad)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Titulo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EstadoTarea)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaCreacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaFin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Notas)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Prioridad)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id}) |
-                    @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="container mt-5 mb-3">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            string estilotarjeta = item.EstadoTarea ? "background-color: #C0C0C0" : "background-color: #F0E68C";
+            <div class="col-md-4">
+                <div class="card p-3 mb-2" style="@estilotarjeta">
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex flex-row align-items-center">
+                            <div class="ms-2 c-details">
+                                <h6 class="mb-0">Tarea N° @item.Id</h6>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="mt-5">
+                        <h2 class="heading">@Html.DisplayFor(modelItem => item.Titulo)</h2>
+
+                        @{
+                            switch (item.Prioridad.ToString())
+                            {
+                                case "3":
+                                    <h5>Prioridad Alta</h5>
+                                    break;
+
+                                case "2":
+                                    <h5>Prioridad Alta</h5>
+                                    break;
+
+                                case "1":
+                                    <h5>Prioridad Alta</h5>
+                                    break;
+
+                                default:
+                                    <h5>Sin Prioridad</h5>
+                                    break;
+                            }
+
+
+                        }
+
+
+
+                        <div class="mt-5">
+
+                            <div class="mt-3">
+                                @Html.ActionLink("Editar", "Edit", new { id=item.Id}) |
+                                @Html.ActionLink("Detalles", "Details", new { id=item.Id }) |
+                                @Html.ActionLink("Eliminar", "Delete", new { id=item.Id })
+                            </div>
+                        </div>
+                    </div>
+                    <span>Fecha de Creación: @item.FechaCreacion</span>
+                    <span>Fecha Fin: @item.FechaFin</span>
+                </div>
+            </div>
+        }
+    </div>
+</div>

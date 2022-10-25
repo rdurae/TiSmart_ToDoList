@@ -17,8 +17,7 @@ namespace TiSmart_ToDoList.Controllers
             if (!String.IsNullOrEmpty(id))
             {
                 var listafiltrada = lista.ToList().Where(i => i.Prioridad == int.Parse(id));
-                return View(listafiltrada);
-                //lista = lista.Where(i => i.Prioridad == int.Parse(id));
+                return View(listafiltrada);                
             }
             return View(lista);
 
@@ -31,7 +30,14 @@ namespace TiSmart_ToDoList.Controllers
             var lista = await cliente.ConsultarAsync();
             var item = lista.ToList().Where(x => x.Id == id).SingleOrDefault();
 
-            return View(item);
+            if (item.EstadoTarea == false)
+            {
+                return View(item);
+            }
+            else
+            {
+                return View("Error");
+            }            
         }
 
         //GET: ToDoListController/Create
